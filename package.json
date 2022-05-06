@@ -1,0 +1,36 @@
+{
+  "name": "@coderbyheart/firmware-test-automation-using-real-embedded-devices",
+  "version": "0.0.0-development",
+  "description": "Slides for my talk about firmware test automation using real embedded devices",
+  "scripts": {
+    "start": "npx live-server --port=8000 --no-browser ./public",
+    "watch": "./.devcontainer/wa make build",
+    "postinstall": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderbyheart/firmware-test-automation-using-real-embedded-devices.git"
+  },
+  "keywords": [
+    "Firmware Development",
+    "Testing",
+    "GitHub Actions",
+    "Docker"
+  ],
+  "author": "Markus Tacker <Markus.Tacker@NordicSemi.no>",
+  "license": "CC-BY-NC-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/coderbyheart/firmware-test-automation-using-real-embedded-devices/issues"
+  },
+  "homepage": "https://github.com/coderbyheart/firmware-test-automation-using-real-embedded-devices#readme",
+  "devDependencies": {
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.61",
+    "live-server": "1.2.2",
+    "prettier": "2.6.2"
+  },
+  "lint-staged": {
+    "*.{yml,md,js,json}": [
+      "prettier --write --config .prettierrc.js"
+    ]
+  }
+}
