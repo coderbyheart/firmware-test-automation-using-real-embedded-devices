@@ -304,7 +304,7 @@ is stored as artifact.
 <small>[Source](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/blob/34d297f5fbfd43a1e6c55ab5e12d5ed7ee94655a/.github/workflows/build-and-release.yaml#L118)</small>
 
 ```bash
-docker run --rm -v ${PWD}:/workdir/project nrfassettracker/nrfconnect-sdk:main \
+docker run --rm -v ${PWD}:/workdir/project nordicplayground/nrfconnect-sdk:main \
   /bin/bash -c '\
     cd firmware && \
     west init -l && \
