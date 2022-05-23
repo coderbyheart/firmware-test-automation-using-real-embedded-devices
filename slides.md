@@ -238,16 +238,13 @@ GitHub Actions supports Docker, so I can now
 If you are using this approach you must be aware that you are using software
 from many untrusted sources with all the consequences that brings.
 
-- There is no guarantee (e.g. cryptographic signature) about what the image
-  contains.
-- The approach only ensures through automation that it can be used to build the
-  application.
-- The entire image creation and publication is automated (build on GitHub
-  Actions, and served by Dockerhub), which means there are multiple systems that
-  can be compromised, during and after publication.
 - Docker images are not deterministic. At build time, dependencies are fetched
   from third-party sources and installed. These dependencies could also contain
   malicious code.
+- The entire image creation and publication is automated (build on GitHub
+  Actions, and served by Dockerhub), which means there are multiple systems that
+  can be compromised, during and after publication.
+- Through automation we only ensure that the application can be build.
 
 ## More problems
 
@@ -418,14 +415,16 @@ I: Jumping to the first image slot
 
 Using UART we can immediately react on device output.
 
-Nice, but recommended:
+Nice, but:
 
 - changes easily (spaces can break assertion)
 - UART sometimes gets garbled
 - Needs debugger (devices could be programmed using MCUBoot)
 
 More hassle, than it's worth.  
-Store output, but treat device as black box: observe outcome on cloud side.
+Store output, but don't depend on them for testing.
+
+Treat device as black box: observe outcome on cloud side.
 
 ## Test successfull!
 
@@ -460,7 +459,13 @@ I need to:
 
 - remove test dependency on UART
 - have multiple DKs per PC to test in parallel
-- look into _commiditizing_ this approach
+- look into _commoditizing_ this approach
+
+## Outro
+
+- end-to-end tests catch issues which are not found in unit testing
+- however, we can't test everying e2e, it's way too expensive
+- both are neccessary
 
 ## Thank you & happy connecting!
 
