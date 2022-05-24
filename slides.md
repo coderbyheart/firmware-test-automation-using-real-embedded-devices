@@ -32,6 +32,9 @@ header-includes: |
    .reveal li::marker {
      color: #00a9ce;
    }
+   .reveal li {
+     margin-bottom: 0.75rem;
+   }
    :root {
         --main-font: 'Work Sans', sans-serif;
        --heading-font: 'Work Sans', sans-serif;
@@ -119,11 +122,18 @@ header-includes: |
     .slide p {
       text-align: left;
     }
-    #thank-you-happy-connecting.slide p {
+    div.text-center p {
       text-align: center;
     }
     .reveal pre {
       box-shadow: none;
+    }
+    .reveal .slide-number {
+      bottom: initial;
+      top: 8px;
+      color: #333;
+      background-color: transparent;
+      font-size: 36px;
     }
   </style>
 ---
@@ -140,10 +150,8 @@ header-includes: |
 
 ::: {.column width=48%}
 
-Senior R&D Engineer, Nordic Semiconductor, Trondheim
-
-<small>**Software crafter. Code donor. Mentor. Speaker. Conference & Community
-builder. Camper.**</small>
+Senior R&D Engineer  
+Nordic Semiconductor, Trondheim
 
 [\@coderbyheart](https://twitter.com/coderbyheart)
 
@@ -161,13 +169,9 @@ builder. Camper.**</small>
 
 ## The project
 
-Joined team working on
-[_Asset Tracker sample_](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/1.9.1/nrf/applications/asset_tracker_v2/doc/asset_tracker_v2_description.html):
+In 2019, I joined a team working on
 [open-source firmware sample](https://github.com/nrfconnect/sdk-nrf/tree/v1.9.1/applications/asset_tracker_v2)
-based on [Zephyr RTOS](https://www.zephyrproject.org/) for an asset tracker
-using two of our development kits.
-
-I am building the cloud backend.
+using two of our development kits for cellular IoT.
 
 ## Development Kits
 
@@ -175,21 +179,34 @@ I am building the cloud backend.
 
 ::: {.column width=48%}
 
+<div class="text-center">
+
 ![nRF9160 DK](./nRF9160-DK.webp)
 
 [nRF9160 DK](https://www.nordicsemi.com/Products/Development-hardware/nrf9160-dk)
+
+</div>
 
 :::
 
 ::: {.column width=48%}
 
+<div class="text-center">
+
 ![Thingy:91](./Thingy91.webp)
 
 [Thingy:91](https://www.nordicsemi.com/Products/Development-hardware/Nordic-Thingy-91)
 
+</div>
+
 :::
 
 ::::::::::::::
+
+## 🌩️
+
+I am responsible for demonstrating to our customers what they need on the cloud
+side.
 
 ## System overview
 
@@ -197,41 +214,55 @@ I am building the cloud backend.
 
 ## Needs
 
-Ensure that cloud backend and application work together.
-
-Provide up-to date firmware for testing (endpoints need to be hardcoded).
+1. Ensure that cloud backend and firmware application work together.
+2. Provide up-to date firmware for testing (endpoints need to be hardcoded) and
+   releases  
+   <small>2 hardware targets × 3 debug levels × 4 files =
+   [24 artifacts / change](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/releases/tag/v3.3.0)</small>
 
 ## QA resources closed-source
 
-However, build pipeline for our _open-source_ sample applications was **closed
-source**, using Jenkins.
+However, firmware build pipeline for our **open-source** sample applications is
+**closed source**.
 
-Tests **closed source**.
+The tests are **closed source**, too.
 
 ## My Goals
 
-Test firmware automatically for every change (I want to go on vacation!).
+Test firmware automatically for every change.
 
-- on GitHub Actions (so customers can see, copy, adapt)
-- because **CONTINUOUS DELIVERY**!
+- because
+  [**CONTINUOUS DELIVERY**](https://itrevolution.com/book/accelerate/)!  
+  (I want to go on vacation!).
+
+- on GitHub Actions  
+  (so customers can see, copy, adapt)
+
 - More robust products = more $$$ (and we don't want our customers to end up on
-  @internetofshit).
+  [@internetofshit](https://twitter.com/internetofshit)).
 
 ## Problems
 
-Setting up system for building applications was only documented as manual
-process.
+Setting up system for building firmware is only documented as a manual process.
 
 ## Solution: Docker for dependencies
 
-Created a [Dockerfile](https://github.com/NordicPlayground/asset-tracker-docker)
-that has all the dependencies.
+I've created a [Docker image](https://github.com/NordicPlayground/nrf-docker)
+that provides all required dependencies.
 
-- Nightly tests which build applications
-- Generalized for all samples and applications in SDK
+- Nightly tests which build firmware
+- Generalized for all firmware samples and applications in our SDK
 
-GitHub Actions supports Docker, so I can now
-[build it automatically](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/blob/34d297f5fbfd43a1e6c55ab5e12d5ed7ee94655a/.github/workflows/build-and-release.yaml)!
+## GitHub Actions &lt;3 Docker
+
+GitHub Actions support Docker, so I can now
+[build firmware from our SDK automatically](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/blob/34d297f5fbfd43a1e6c55ab5e12d5ed7ee94655a/.github/workflows/build-and-release.yaml)!
+
+<div class="text-center">
+
+[![nRF Docker](./nrf-docker.png)](https://github.com/NordicPlayground/nrf-docker)
+
+</div>
 
 ## Warning: Docker is not deterministic!
 
@@ -248,36 +279,42 @@ from many untrusted sources with all the consequences that brings.
 
 ## More problems
 
-Our SDK is a mono-repo.
+Our SDK is a monorepo. _Don't ask._
 
-- application I am interested in is in a sub folder, but customers often use
-  _out-of-tree_ development model (and should!): SDK as a dependency, not a
-  fork.
+- The firmware application I am interested in is in a sub folder, but customers
+  often use an _out-of-tree_ development model.
+- Out-of-tree is recommended:  
+  SDK as a dependency, not a fork.
 
 ## Solution: out-of-tree copy of subfolder
 
 Use GitHub Actions to copy subfolder into
 [seperate repository](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/).
 
-- Shows customers how it would look like for them.
+- Takes customers/users perspective.
 - Pulls in SDK as a dependency.
 - One repo per cloud-provider
-  ([Azure](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-azure/))
+  ([AWS](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/),
+  [Azure](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-azure/),
+  ...)
   - cloud abstraction to support multiple cloud backends is not used by
     customers in practice.
 - Introduces
   [semantic release](https://github.com/semantic-release/semantic-release) on
-  commit (not done in our SDK release process)
+  commit (not done in our SDK release process), because
+  [**CONTINUOUS DELIVERY**](https://itrevolution.com/book/accelerate/)!
 
 ## Even more problems
 
 Can't use emulation (e.g. running in QEMU).
 
-- removes entire network stack, so tests do not cover huge problem surface
-- A lot of problems during testing are because of issues with TLS
-  - certificates
-  - hostname
-  - provisioning (JITP)
+- removes entire network stack, so tests do not cover huge problem surface.
+
+A lot of problems during testing are because of connection issues (TLS):
+
+- certificates
+- hostname(s)
+- provisioning on the cloud side
 
 ## Solution: run on real hardware
 
@@ -314,30 +351,37 @@ docker run --rm -v ${PWD}:/workdir/project nordicplayground/nrfconnect-sdk:main 
 
 ## Create credentials for device
 
+Runner creates a certificate for a device with a unique and random name.
+
 Repository has intermediate CA certificate, which can be used to create device
 certificates.
 
-Runner creates a certificate for a device with a unique and random name.
-
-Certificate is stored as artifact.
+Certificate is stored as artifact (so it can be accessed by other jobs later).
 
 <small>[Source](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/blob/34d297f5fbfd43a1e6c55ab5e12d5ed7ee94655a/.github/workflows/build-and-release.yaml#L195-L210)</small>
 
 ## Flash the firmware and credentials to the test board
 
 On a
-[self-hosted runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners))
-with a development kit attached, the firmware and the certificates are flashed.
+[self-hosted runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners),
+with a development kit attached, the firmware and the certificates are flashed
+onto the development kit.
 
 - Started with RaspberryPI (ARM64 is supported by Segger)
-- Now Ubuntu on an Intel NUC (faster to update)
+- Now Ubuntu on an Intel NUC (faster to update, supported by our IT)
+
+## Power cycle!
 
 There are all kinds of reasons why devices crash, so turning it on and off again
 is needed (power cycle).
 
+<div class="text-center">
+
 ![YKUSH 3](./ykush3.png){width=30%}
 
 [YKUSH 3](https://www.yepkit.com/product/300110/YKUSH3)
+
+</div>
 
 ## Firmware boots, and (hopefully) connects to cloud
 
@@ -347,14 +391,14 @@ is needed (power cycle).
 <dbg> aws_iot_integration: cloud_wrap_init:  Version:     67bcbead673f5a16908ef396b79e390e3ee1e6cd-nrf9160dk_nrf9160_ns-a11d8e1b-9751-4036-9deb-0ed875c1ded2-original
 <dbg> aws_iot_integration: cloud_wrap_init:  Client ID:   a11d8e1b-9751-4036-9deb-0ed875c1ded2
 <dbg> aws_iot_integration: cloud_wrap_init:  Cloud:       AWS IoT
-<dbg> aws_iot_integration: cloud_wrap_init:  Endpoint:    a3nkol2gd45hn0-ats.iot.***.amazonaws.com
+<dbg> aws_iot_integration: cloud_wrap_init:  Endpoint:    abcdef12345678-ats.iot.eu-west1.amazonaws.com
 <dbg> aws_iot_integration: cloud_wrap_init: ********************************************
 ```
 
 ## Test runner schedules FOTA
 
-The test runner waits for the device to connect to the cloud (write to it's
-shadow), then schedules a FOTA.
+The test runner waits for the device to connect to the cloud (until it writes to
+its shadow), then schedules a FOTA.
 
 ```
 # Device has connected and reported device information.
@@ -407,7 +451,7 @@ I: Jumping to the first image slot
 
 <dbg> aws_iot_integration: cloud_wrap_init:  Client ID:   a11d8e1b-9751-4036-9deb-0ed875c1ded2
 <dbg> aws_iot_integration: cloud_wrap_init:  Cloud:       AWS IoT
-<dbg> aws_iot_integration: cloud_wrap_init:  Endpoint:    a3nkol2gd45hn0-ats.iot.***.amazonaws.com
+<dbg> aws_iot_integration: cloud_wrap_init:  Endpoint:    abcdef12345678-ats.iot.eu-west1.amazonaws.com
 <dbg> aws_iot_integration: cloud_wrap_init: ********************************************
 ```
 
@@ -418,11 +462,10 @@ Using UART we can immediately react on device output.
 Nice, but:
 
 - changes easily (spaces can break assertion)
-- UART sometimes gets garbled
-- Needs debugger (devices could be programmed using MCUBoot)
+- UART sometimes gets garbled (USB cables suck)
 
 More hassle, than it's worth.  
-Store output, but don't depend on them for testing.
+Store output, but don't depend on it for testing.
 
 Treat device as black box: observe outcome on cloud side.
 
@@ -441,33 +484,40 @@ We have now ensured, that
 We could do more, but:
 
 - many things can be covered easier in unit tests
-- from the cloud backend perspective connectivity + FOTA is the critical feature
+- from the cloud backend perspective connectivity + FOTA is **THE** critical
+  feature
 
 ## Learnings
 
 The toolchain for embedded devices (that I use) was not designed with automation
 in mind.
 
-It's hard to get it to work, understanding the how everything plays together is
-a massive mindfuck.
+It's hard to get it to work.
 
 It is NOT [reproducible](https://reproducible-builds.org/).
 
+Uderstanding how everything plays together is a massive mindfuck.
+
+But it IS possible!
+
 ## Outlook
 
-I need to:
+I want to:
 
 - remove test dependency on UART
 - have multiple DKs per PC to test in parallel
 - look into _commoditizing_ this approach
 
-## Outro
+## Benefits
 
 - end-to-end tests catch issues which are not found in unit testing
-- however, we can't test everying e2e, it's way too expensive
-- both are neccessary
+- I have discovered critical issues through this black-box testing
+- also provides WORKING documentation and tracks changes of how to build our
+  firmware applications
 
 ## Thank you & happy connecting!
+
+<div class="text-center">
 
 Please share your feedback!
 
@@ -480,3 +530,5 @@ Please share your feedback!
 We are hiring!  
 [nordicsemi.com/jobs](https://nordicsemi.com/jobs)  
 <small>Trondheim &middot; Oslo &middot; 20+ more locations</small>
+
+</div>
