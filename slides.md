@@ -9,28 +9,27 @@ header-includes: |
       font-weight: 300;
       text-transform: none;
       font-family: var(--heading-font);
-      color: #00a9ce;
+      color: #e00073;
    } 
    .reveal {
         font-size: var(--main-font-size);
         font-family: var(--main-font); 
         font-weight: 400;
         font-size: 32px;
-        margin-top: 60px;
-        height: calc(100% - 120px);
+        height: calc(100% - 60px);
    }
    .reveal strong {
         font-weight: 500;
    }
    .reveal a {
-      color: #00a9ce;
+      color: #e00073;
    }
    .reveal ul {
      list-style-type: square;
-     list-style-color: #00a9ce;
+     list-style-color: #e00073;
    }
    .reveal li::marker {
-     color: #00a9ce;
+     color: #e00073;
    }
    .reveal li {
      margin-bottom: 0.75rem;
@@ -42,36 +41,20 @@ header-includes: |
    .reveal-viewport {
      background-color: #fff;
    }
-   .reveal-viewport::before {
-      content: "@coderbyheart";
+   .reveal-viewport::after {
+      content: "@coderbyheart | CC-BY-NC-SA-4.0";
       position: absolute;
-      top: 0; 
+      bottom: 0; 
       left: 0;
       width: 100%; 
       height: 60px;
-      background-color: #00a9ce;
+      background-color: #191919;
       color: white;
       font-family: var(--main-font);
       font-size: 22px;
       font-weight: 500;
       line-height: 60px;
       padding-left: 10vw;
-   }
-   .reveal-viewport::after {
-      content: "© Nordic Semiconductor | CC-BY-NC-SA-4.0";
-      position: absolute;
-      bottom: 0; 
-      left: 0;
-      width: calc(100% - 10vw); 
-      height: 60px;
-      background-color: #00a9ce;
-      color: white;
-      font-family: var(--main-font);
-      font-size: 22px;
-      font-weight: 300;
-      line-height: 60px;
-      padding-right: 10vw;
-      text-align: right;
    }
    #markus-tacker img {
       border-radius: 100%;
@@ -83,11 +66,8 @@ header-includes: |
     #markus-tacker div.column:first-child {
       text-align: center;
     }
-    .slide-background:first-child .slide-background-content {
-      background-image: url('./titlebg.png');
-    }
     #title-slide h1 {
-      color: white;
+      color: #e00073;
       font-weight: 500;
       font-size: 60px;
     }
@@ -95,7 +75,6 @@ header-includes: |
       content: "Nordic Testing Days | Tallinn";
       display: block;
       color: #222;
-      background-color: white;
       padding: 1rem;
       margin-top: 2rem;
       font-weight: 300;
@@ -104,7 +83,7 @@ header-includes: |
     #title-slide:after {
       content: "June 2022";
       font-size: 22px;
-      color: white;
+      color: #191919;
       font-style: italic;
     }
     figcaption {
@@ -150,8 +129,7 @@ header-includes: |
 
 ::: {.column width=48%}
 
-Senior R&D Engineer  
-Nordic Semiconductor, Trondheim
+Senior R&D Engineer, Trondheim
 
 [\@coderbyheart](https://twitter.com/coderbyheart)
 
@@ -279,7 +257,7 @@ from many untrusted sources with all the consequences that brings.
 
 ## More problems
 
-Our SDK is a monorepo. _Don't ask._
+Our SDK is a monorepo.
 
 - The firmware application I am interested in is in a sub folder, but customers
   often use an _out-of-tree_ development model.
@@ -521,7 +499,7 @@ I want to:
 
 Please share your feedback!
 
-<small>[Markus.Tacker@NordicSemi.no](mailto:Markus.Tacker@NordicSemi.no)  
+<small>[m@coderbyheart.com](mailto:m@coderbyheart.com)  
 [\@coderbyheart](https://twitter.com/coderbyheart)</small>
 
 <small>Latest version:  
