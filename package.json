@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/coderbyheart/firmware-test-automation-using-real-embedded-devices#readme",
   "devDependencies": {
-    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.61",
+    "@nordicsemiconductor/asset-tracker-cloud-code-style": "11.0.74",
     "live-server": "1.2.2",
     "prettier": "2.6.2"
   },
