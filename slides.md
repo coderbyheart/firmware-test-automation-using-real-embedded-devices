@@ -505,16 +505,12 @@ We could test more, but:
 
 # Learnings
 
-The toolchain for embedded devices (that I use) was not designed with automation
-in mind.
-
-It's hard to get it to work.
-
-It is NOT [reproducible](https://reproducible-builds.org/).
-
-Uderstanding how everything plays together is a massive mindfuck.
-
-But it IS possible!
+- The toolchain for embedded devices (that I use) was not designed with
+  automation in mind.
+- It's hard to get it to work.
+- It is NOT [reproducible](https://reproducible-builds.org/).
+- Understanding how everything plays together is a massive mindfuck.
+- But it IS possible!
 
 # Benefits
 
