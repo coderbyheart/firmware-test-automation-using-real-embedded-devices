@@ -491,7 +491,7 @@ We have now ensured, that
 Tests are describe in
 [BDD scenarios](https://github.com/NordicSemiconductor/asset-tracker-cloud-firmware-aws/blob/c15489e4254cdfa83e115720a815e507bfeb2683/features/Connect.feature):
 
-![BDD Tests](./bdd-tests.png)
+![BDD Tests](./bdd-tests.png){width=70%}
 
 # Should we test more?
 
